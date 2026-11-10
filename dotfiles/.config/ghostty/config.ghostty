@@ -1,4 +1,4 @@
-theme = "Ubuntu"
+# theme = "Ubuntu"
 window-height=32
 window-width=128
 

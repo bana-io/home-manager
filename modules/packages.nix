@@ -1,15 +1,18 @@
 {
+  config,
   pkgs,
-  pkgsUnstable,
+  lib,
   ...
 }:
+let
+  pkgsUnstable = import <nixpkgs-unstable> { };
+in
 {
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = (pkg: true);
-
-  # Auto accept Android SDK licenses
-  nixpkgs.config.android_sdk.accept_license = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowUnfreePredicate = _: true;
+    android_sdk.accept_license = true;
+  };
 
   home.packages = with pkgs; [
     zsh
@@ -28,7 +31,7 @@
     vim
     neovim
     micro
-    fresh-editor
+    # fresh-editor
 
     coreutils
     findutils
@@ -52,6 +55,7 @@
     dconf2nix
     # nix-locate
     # nix-index
+    # comma
 
     # Rust tools/stuff:
     # https://zaiste.net/posts/shell-commands-rust/
@@ -78,7 +82,7 @@
     watchexec
     just
     delta
-    hgrep
+    # hgrep
     eza
 
     go
@@ -192,8 +196,8 @@
     wl-clipboard
     ghostty
 
-    # Window manager:
-    hyprland
+    # # Window manager:
+    # hyprland
 
     # Android:
     # android-tools
@@ -203,6 +207,10 @@
     # androidenv.androidPkgs.androidsdk
     # androidenv.androidPkgs.platform-tools
 
-    # Microcontrollers:
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.appindicator
+    gnomeExtensions.launch-new-instance
+    gnomeExtensions.pop-shell
+    gnomeExtensions.tiling-assistant
   ];
 }

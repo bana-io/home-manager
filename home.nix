@@ -1,12 +1,39 @@
-{
-  inputs,
+inputs@{
+  self,
+  nixpkgs,
+  nixpkgs-unstable,
+  home-manager,
+  nix-index-database,
   ...
 }:
+let
+  #   home-manager = import <home-manager> { inherit pkgs; };
+  # nix-index-database = import <nix-index-database> { inherit pkgs; };
+in
 {
-  home.username = "mbana";
-  home.homeDirectory = "/home/mbana";
+  # home-manager.inputs.nixpkgs.follows = "nixpkgs";
+  # nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
+  # Assuming that `./modules/` only contains `*.nix` files, the below imports them all.
+  imports = map (fn: ./modules/${fn}) (builtins.attrNames (builtins.readDir ./modules));
+
+  # Home Manager needs a bit of information about you and the paths it should
+  # manage.
+  home.username = builtins.getEnv "USER";
+  home.homeDirectory = builtins.getEnv "HOME";
+
+  # This value determines the Home Manager release that your
+  # configuration is compatible with. This helps avoid breakage
+  # when a new Home Manager release introduces backwards
+  # incompatible changes.
+  #
+  # You can update Home Manager without changing this value. See
+  # the Home Manager release notes for a list of state version
+  # changes in each release.
   home.stateVersion = "26.11";
-  home.backupFileExtension = "bak.${toString inputs.self.lastModifiedDate}";
+
+  home.backupFileExtension = "bak-${toString builtins.currentTime}";
+
   home.file = {
     "bin/ptyxis".source = ./bin/linux/ptyxis.sh;
     ".config/ghostty/config.ghostty".source = ./dotfiles/.config/ghostty/config.ghostty;
@@ -18,12 +45,10 @@
     ".npmrc".source = ./dotfiles/.npmrc;
   };
   home.sessionVariables = {
-    IDF_PATH = "${builtins.getEnv "HOME"}/.espressif/master/esp-idf";
     EDITOR = "code --wait --new-window";
     VISUAL = "code --wait --new-window";
   };
   home.sessionPath = [
-    "$\{IDF_PATH\}/tools"
     "/usr/lib/ccache"
     "/usr/lib/ccache/bin"
     "$HOME/bin"
@@ -32,15 +57,13 @@
     "$HOME/go/bin"
     "$HOME/.npm-global/bin"
   ];
-  programs.home-manager.enable = true;
+
   targets.genericLinux.enable = true;
-  xdg.enable = true;
+  xdg = {
+    enable = true;
+    mime.enable = true;
+  };
   fonts.fontconfig.enable = true;
-  imports = [
-    ./modules/packages.nix
-    ./modules/shell.nix
-    ./modules/ssh.nix
-    ./modules/git.nix
-    ./modules/dconf.nix
-  ];
+
+  programs.home-manager.enable = true;
 }

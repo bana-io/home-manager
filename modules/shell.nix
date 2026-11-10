@@ -1,4 +1,7 @@
 {
+  config,
+  pkgs,
+  lib,
   ...
 }:
 {
@@ -45,7 +48,7 @@
       ignoreSpace = true;
       saveNoDups = true;
 
-      path = "/home/mbana/.zsh_history";
+      path = "${config.programs.zsh.dotDir}/.zsh_history";
       save = 1000000000;
 
       # TODO: Change this back to `false`.
@@ -54,7 +57,6 @@
     };
     initContent = ''
       . "''${HOME}/.cargo/env" || echo "ERROR: failed to source ''${HOME}/.cargo/env"
-      . "''${HOME}/export-esp.sh" || echo "ERROR: failed to source ''${HOME}/export-esp.sh"
     '';
     # initContent = ''
     #   source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
@@ -154,5 +156,6 @@
     enable = true;
     enableZshIntegration = true;
     installVimSyntax = true;
+    package = pkgs.ghostty;
   };
 }

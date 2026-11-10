@@ -1,5 +1,7 @@
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
 {
+  config,
+  pkgs,
   lib,
   ...
 }:
@@ -43,7 +45,8 @@ let
       "switch-to-workspace-up" = [ ];
     };
     "org/gnome/desktop/wm/preferences" = {
-      "num-workspaces" = 1;
+      button-layout= "appmenu:minimize,maximize,close";
+      "num-workspaces" = 2;
     };
     "org/gnome/mutter" = {
       "auto-maximize" = true;
@@ -51,53 +54,23 @@ let
       "workspaces-only-on-primary" = true;
       "overlay-key" = "Super_L";
     };
-    "org/gnome/shell/extensions/tiling-assistant" = {
-      "enable-tiling-popup" = false;
-    };
-    "org/gnome/shell/extensions/dash-to-dock" = {
-      "apply-custom-theme" = true;
-      "background-opacity" = 0.80000000000000004;
-      "dash-max-icon-size" = 48;
-      "disable-overview-on-startup" = false;
-      "dock-position" = "BOTTOM";
-      "extend-height" = false;
-      "height-fraction" = 0.90000000000000002;
-      "hot-keys" = false;
-      "multi-monitor" = true;
-      "preferred-monitor" = -2;
-      "preferred-monitor-by-connector" = "DP-2";
-      "scroll-action" = "cycle-windows";
-      "show-apps-at-top" = true;
-      "show-mounts-only-mounted" = true;
-    };
-    "org/gnome/shell/extensions/user-theme" = {
-      "name" = "Yaru-dark";
-    };
-    # Need:
-    # [org/gnome/desktop/input-sources]
-    # mru-sources=@a(ss) []
-    # sources=[('xkb', 'gb')]
-    # xkb-options='@as []'
     "org/gnome/desktop/input-sources" = {
-    #   "mru-sources" = "@a(ss) []";
-    #   "sources" = "[('xkb', 'gb')]";
-    #   "xkb-options" = "'@as []'";
       sources = [ (mkTuple [ "xkb" "gb" ]) ];
       xkb-options = [ "terminate:ctrl_alt_bksp" ];
     };
     "org/gnome/desktop/interface" = {
-      "clock-show-seconds" = false;
+      "clock-show-seconds" = true;
       "clock-show-weekday" = true;
       "color-scheme" = "prefer-dark";
-    #   "cursor-size" = 32;
-      "cursor-theme" = "oxy-yellow";
       "enable-hot-corners" = true;
       "gtk-enable-primary-paste" = true;
-      "gtk-theme" = "Yaru-dark";
-      "icon-theme" = "Yaru-dark";
+      "cursor-size" = 32;
       "locate-pointer" = true;
       "monospace-font-name" = "Iosevka 11";
       "toolkit-accessibility" = false;
+      # "cursor-theme" = "oxy-yellow";
+      # "gtk-theme" = "Yaru-dark";
+      # "icon-theme" = "Yaru-dark";
     };
     "org/gtk/gtk4/settings/file-chooser" = {
       "show-hidden" = true;
@@ -125,9 +98,45 @@ let
       "reset" = "<Control>l";
       "reset-and-clear" = "<Shift><Control>l";
     };
+    "org/gnome/shell/extensions/tiling-assistant" = {
+      "enable-tiling-popup" = false;
+    };
+    "org/gnome/shell/extensions/dash-to-dock" = {
+      "apply-custom-theme" = true;
+      "background-opacity" = 0.80000000000000004;
+      "dash-max-icon-size" = 48;
+      "disable-overview-on-startup" = false;
+      "dock-position" = "BOTTOM";
+      "extend-height" = false;
+      "height-fraction" = 0.90000000000000002;
+      "hot-keys" = false;
+      "multi-monitor" = true;
+      "preferred-monitor" = -2;
+      "preferred-monitor-by-connector" = "DP-2";
+      "scroll-action" = "cycle-windows";
+      "show-apps-at-top" = true;
+      "show-mounts-only-mounted" = true;
+    };
+    "org/gnome/shell" = {
+      "disable-user-extensions" = false;
+       # "enabled-extensions" = ['GPaste@gnome-shell-extensions.gnome.org', 'ubuntu-dock@ubuntu.com', 'tiling-assistant@ubuntu.com', 'dash-to-dock@micxgx.gmail.com', 'appindicatorsupport@rgcjonas.gmail.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com', 'tiling-assistant@leleat-on-github'];
+      "enabled-extensions" = with pkgs.gnomeExtensions; [
+        "GPaste@gnome-shell-extensions.gnome.org"
+        dash-to-dock.extensionUuid
+        appindicator.extensionUuid
+        launch-new-instance.extensionUuid
+        pop-shell.extensionUuid
+        tiling-assistant.extensionUuid
+      ];
+    };
   };
 in
 {
-  dconf.settings = settings;
-  dconf.databases."user" = settings;
+  dconf = {
+    enable = true;
+    settings = settings;
+    databases."user" = settings;
+  };
+
+  programs.gnome-shell.enable = true;
 }
