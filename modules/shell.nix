@@ -48,7 +48,8 @@
       ignoreSpace = true;
       saveNoDups = true;
 
-      path = "${config.programs.zsh.dotDir}/.zsh_history";
+      # path = "${config.programs.zsh.dotDir}/.zsh_history";
+      path = "${config.home.homeDirectory}/.zsh_history";
       save = 1000000000;
 
       # TODO: Change this back to `false`.

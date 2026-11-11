@@ -125,7 +125,7 @@ let
         dash-to-dock.extensionUuid
         appindicator.extensionUuid
         launch-new-instance.extensionUuid
-        pop-shell.extensionUuid
+        # pop-shell.extensionUuid
         tiling-assistant.extensionUuid
       ];
     };
