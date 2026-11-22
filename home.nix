@@ -1,21 +1,27 @@
-inputs@{
-  self,
-  nixpkgs,
-  nixpkgs-unstable,
-  home-manager,
-  nix-index-database,
+#inputs@{
+{
+  lib,
+  # self,
+  # nixpkgs,
+  # nixpkgs-unstable,
+  # home-manager,
+  # nix-index-database,
   ...
 }:
-let
-  #   home-manager = import <home-manager> { inherit pkgs; };
-  # nix-index-database = import <nix-index-database> { inherit pkgs; };
-in
+# let
+#   #   home-manager = import <home-manager> { inherit pkgs; };
+#   # nix-index-database = import <nix-index-database> { inherit pkgs; };
+# in
 {
   # home-manager.inputs.nixpkgs.follows = "nixpkgs";
   # nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
   # Assuming that `./modules/` only contains `*.nix` files, the below imports them all.
-  imports = map (fn: ./modules/${fn}) (builtins.attrNames (builtins.readDir ./modules));
+  imports = lib.pipe (builtins.readDir ./modules) [
+    (lib.filterAttrs (name: type: type == "regular" && lib.hasSuffix ".nix" name))
+    builtins.attrNames
+    (map (fn: ./modules/${fn}))
+  ];
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -49,8 +55,9 @@ in
     VISUAL = "code --wait --new-window";
   };
   home.sessionPath = [
-    "/usr/lib/ccache"
-    "/usr/lib/ccache/bin"
+    # TODO(bana-io): Remove `ccache` blocks below.
+    # "/usr/lib/ccache"
+    # "/usr/lib/ccache/bin"
     "$HOME/bin"
     "$HOME/.bin"
     "$HOME/.local/bin"
@@ -59,11 +66,21 @@ in
   ];
 
   targets.genericLinux.enable = true;
+
   xdg = {
     enable = true;
     mime.enable = true;
   };
-  fonts.fontconfig.enable = true;
+
+  fonts.fontconfig = {
+    enable = true;
+    defaultFonts = {
+      monospace = [ "Iosevka" ];
+      # serif = [ "Libertinus Serif" ];
+      sansSerif = [ "Hanken Grotesk" ];
+      # emoji = [ "Noto Color Emoji" ];
+    };
+  };
 
   programs.home-manager.enable = true;
 }

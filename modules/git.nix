@@ -1,7 +1,4 @@
 {
-  config,
-  pkgs,
-  lib,
   ...
 }:
 {
@@ -46,8 +43,6 @@
             "https://github.com/"
           ];
         };
-      };
-      url = {
         "git@gitlab.com:" = {
           insteadOf = [
             "https://gitlab.com/"
@@ -55,10 +50,12 @@
         };
       };
       alias = {
+        c = "checkout";
         d = "diff";
         dc = "diff --cached";
         s = "status";
         ll = "log -n1";
+        commit = "commit --verbose --signoff --message .ignore/COMMIT_MESSAGE.md";
       };
     };
   };

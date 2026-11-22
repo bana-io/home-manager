@@ -1,6 +1,5 @@
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
 {
-  config,
   pkgs,
   lib,
   ...
@@ -83,7 +82,7 @@ let
       "cursor-blink-mode" = "on";
       "default-profile-uuid" = "dbc54e16f7f83352e135295d6ad13be4";
       "profile-uuids" = "['dbc54e16f7f83352e135295d6ad13be4', '6fa7b044c2c831e3184750c36ad14020']";
-      "window-size" = "(uint32 217, uint32 33)";
+      "window-size" = mkTuple [ (mkUint32 227) (mkUint32 43) ];
     };
     "org/gnome/Ptyxis/Profiles/6fa7b044c2c831e3184750c36ad14020" = {
       "label" = "default";

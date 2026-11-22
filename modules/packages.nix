@@ -1,11 +1,10 @@
 {
-  config,
   pkgs,
-  lib,
+  config,
   ...
 }:
 let
-  pkgsUnstable = import <nixpkgs-unstable> { };
+  pkgsUnstable = import <nixpkgs-unstable> { inherit (config.nixpkgs) config; };
 in
 {
   nixpkgs.config = {
@@ -19,19 +18,19 @@ in
     zsh-autosuggestions
     zsh-syntax-highlighting
     zsh-history-substring-search
+    zsh-fast-syntax-highlighting
+
     shfmt
     shellcheck
     asciinema
-    curl
     git
-    wget
     tmux
     zellij
 
     vim
     neovim
     micro
-    # fresh-editor
+    fresh-editor
 
     coreutils
     findutils
@@ -68,7 +67,6 @@ in
     ripgrep
     tokei
     hyperfine
-    tealdeer
     bandwhich
     grex
     zoxide
@@ -81,7 +79,6 @@ in
     duf
     watchexec
     just
-    delta
     hgrep
     eza
 
@@ -91,7 +88,6 @@ in
     delve
     golangci-lint
 
-    delve
     nodejs
     # rustc
     # cargo
@@ -139,7 +135,6 @@ in
     dnsutils
     unixtools.netstat
     gping
-    bandwhich
     mtr
     iftop
     # wireshark
@@ -151,6 +146,7 @@ in
 
     # System information tools:
     screenfetch
+    fastfetch
 
     # Comrpession tools:
     zip
@@ -161,7 +157,6 @@ in
     zstd
     gzip
     bzip2
-    p7zip
 
     # eBPF tools:
     bpf-linker
@@ -170,7 +165,6 @@ in
     bpfmon
     bpftop
     bpftune
-    bpftrace
     libbpf
     bcc
     pwru
@@ -187,8 +181,15 @@ in
 
     # Fonts:
     iosevka
+    fira
     fira-sans
+    # fira-sans # included by `google-fonts`
+    # google-fonts
     cascadia-code
+    corefonts
+    vista-fonts
+    # wineWow64Packages.fonts
+    hanken-grotesk
 
     # Terminal:
     # wezterm

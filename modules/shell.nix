@@ -1,16 +1,19 @@
 {
   config,
   pkgs,
-  lib,
   ...
 }:
 {
   programs.zsh = {
+    # dotDir = "${config.home.homeDirectory}"; # "${config.home.homeDirectory}/.config/zsh";
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
     historySubstringSearch.enable = true;
+    # syntaxHighlighting.enable = true;
+    fastSyntaxHighlighting = {
+      enable = true;
+    };
     shellAliases = {
       # copy = "xclip -selection clipboard";
       # paste = "xclip -o -selection clipboard";
@@ -38,7 +41,7 @@
       rm = "rm -vi";
 
       # Dev aliases
-      dev-dir = "cd ~/dev/github/mbana/";
+      dev-dir = "cd ~/dev/github/bana-io/";
     };
     history = {
       append = true;
@@ -57,7 +60,7 @@
       size = 1000000000;
     };
     initContent = ''
-      . "''${HOME}/.cargo/env" || echo "ERROR: failed to source ''${HOME}/.cargo/env"
+      [ -f "''${HOME}/.cargo/env" ] && . "''${HOME}/.cargo/env"
     '';
     # initContent = ''
     #   source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
