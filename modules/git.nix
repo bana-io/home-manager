@@ -55,7 +55,7 @@
         dc = "diff --cached";
         s = "status";
         ll = "log -n1";
-        commit = "commit --verbose --signoff --message .ignore/COMMIT_MESSAGE.md";
+        cm = "commit --verbose --signoff --message .ignore/COMMIT_MESSAGE.md";
       };
     };
   };

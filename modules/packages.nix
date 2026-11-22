@@ -5,6 +5,26 @@
 }:
 let
   pkgsUnstable = import <nixpkgs-unstable> { inherit (config.nixpkgs) config; };
+  # Workaround for vendored libbpf-sys 1.5.0 shadowing <linux/types.h> without
+  # __u128/__s128, which breaks compilation against newer Linux aarch64 headers
+  # (asm/sigcontext.h, asm/ptrace.h).
+  bpftop =
+    if pkgs.stdenv.hostPlatform.isAarch64 then
+      let
+        u128Header = pkgs.writeText "u128-fix.h" ''
+          #ifdef __SIZEOF_INT128__
+          typedef __signed__ __int128 __s128 __attribute__((aligned(16)));
+          typedef unsigned __int128 __u128 __attribute__((aligned(16)));
+          #endif
+        '';
+      in
+      pkgs.bpftop.overrideAttrs (old: {
+        LIBBPF_SYS_EXTRA_CFLAGS =
+          (if old ? LIBBPF_SYS_EXTRA_CFLAGS then "${old.LIBBPF_SYS_EXTRA_CFLAGS} " else "")
+          + "-include ${u128Header}";
+      })
+    else
+      pkgs.bpftop;
 in
 {
   nixpkgs.config = {
