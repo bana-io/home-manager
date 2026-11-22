@@ -82,7 +82,7 @@ in
     watchexec
     just
     delta
-    # hgrep
+    hgrep
     eza
 
     go
