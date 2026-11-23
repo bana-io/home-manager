@@ -38,10 +38,14 @@
   # changes in each release.
   home.stateVersion = "26.11";
 
-  home.backupFileExtension = "bak-${toString builtins.currentTime}";
+  # home.backupFileExtension = "bak-${toString builtins.currentTime}";
+  home.backupFileExtension = "bak";
 
   home.file = {
-    "bin/ptyxis".source = ./bin/linux/ptyxis.sh;
+    ".local/bin/ptyxis" = {
+      source = ./bin/linux/ptyxis.sh;
+      executable = true;
+    };
     ".config/ghostty/config.ghostty".source = ./dotfiles/.config/ghostty/config.ghostty;
     ".config/ccache/ccache.conf".source = ./dotfiles/.config/ccache/ccache.conf;
     ".config/tio/config".source = ./dotfiles/.config/tio/config;

@@ -10,10 +10,10 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     historySubstringSearch.enable = true;
-    # syntaxHighlighting.enable = true;
-    fastSyntaxHighlighting = {
-      enable = true;
-    };
+    syntaxHighlighting.enable = true;
+    # fastSyntaxHighlighting = {
+    #   enable = true;
+    # };
     shellAliases = {
       # copy = "xclip -selection clipboard";
       # paste = "xclip -o -selection clipboard";

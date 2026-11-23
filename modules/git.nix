@@ -55,7 +55,9 @@
         dc = "diff --cached";
         s = "status";
         ll = "log -n1";
-        cm = "commit --verbose --signoff --message .ignore/COMMIT_MESSAGE.md";
+        undo = "reset --soft HEAD~1";
+        amend = "commit --amend -CHEAD --signoff";
+        cm = "!git commit --verbose --signoff --file ''$(pwd)/.ignore/COMMIT_MESSAGE.md";
       };
     };
   };
