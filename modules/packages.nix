@@ -122,7 +122,7 @@ in
     kind
     k9s
     stern
-    docker-compose
+    # docker-compose
 
     sqlite
 

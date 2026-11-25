@@ -1,0 +1,24 @@
+{
+    "historySize": 2147483647,
+    "enableTerminalSandbox": true,
+    "toolPermission": "proceed-in-sandbox",
+    "trustedWorkspaces": [
+        "/home/mbana/",
+        "/home/bana-io/",
+        "/home/mbana/.config/home-manager",
+        "/home/bana-io/.config/home-manager",
+        "/home/mbana/dev/github/",
+        "/home/bana-io/dev/github/"
+    ],
+    "permissions": {
+        "deny": [
+            "command(rm -rf *)",
+            "command(rm -r *)",
+            "command(rm *)",
+            "command(sudo *)",
+            "command(sudo)",
+            "command(git commit)",
+            "command(git push)"
+        ]
+    }
+}

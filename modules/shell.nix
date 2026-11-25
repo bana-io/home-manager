@@ -55,8 +55,8 @@
       path = "${config.home.homeDirectory}/.zsh_history";
       save = 1000000000;
 
-      # TODO: Change this back to `false`.
-      share = true;
+      # # TODO: Change this back to `false`.
+      # share = true;
       size = 1000000000;
     };
     initContent = ''

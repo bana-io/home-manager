@@ -53,6 +53,15 @@
     ".gdbinit".source = ./dotfiles/.gdbinit;
     # Will allow us to install global npm packages without sudo and without polluting the Nix store, and also to have a consistent location for npm global packages across different machines. E.g., `npm install --global @openai/codex` will install it to `~/.npm-global/bin`.
     ".npmrc".source = ./dotfiles/.npmrc;
+
+    # AI Tools:
+
+    # Antigravity by Google.
+    # https://antigravity.google/docs/settings/
+    ".gemini/antigravity-cli/settings.json".source = ./dotfiles/.gemini/antigravity-cli/settings.json;
+    # See: https://antigravity.google/docs/cli/commands/agents/#creating-custom-agents
+    ".gemini/config/agents/code-reviewer.md".source = ./dotfiles/.gemini/config/agents/code-reviewer.md;
+    ".gemini/config/agents/tester.md".source = ./dotfiles/.gemini/config/agents/tester.md;
   };
   home.sessionVariables = {
     EDITOR = "code --wait --new-window";
