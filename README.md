@@ -7,6 +7,7 @@ Nix Home Manager configuration, see <https://nix-community.github.io/home-manage
 Ubuntu:
 
 ```sh
+sudo apt update -y && sudo apt install -y curl git dconf-service
 sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
 # Restart shell, reboot, logout an log back in or start a new shell.
 exit
