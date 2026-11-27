@@ -233,5 +233,8 @@ in
     gnomeExtensions.launch-new-instance
     gnomeExtensions.pop-shell
     gnomeExtensions.tiling-assistant
+
+    # Cloud Computing:
+    oci-cli
   ];
 }

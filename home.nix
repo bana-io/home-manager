@@ -57,8 +57,8 @@
     # AI Tools:
 
     # Antigravity by Google.
-    # https://antigravity.google/docs/settings/
-    ".gemini/antigravity-cli/settings.json".source = ./dotfiles/.gemini/antigravity-cli/settings.json;
+    # # https://antigravity.google/docs/settings/
+    # ".gemini/antigravity-cli/settings.json".source = ./dotfiles/.gemini/antigravity-cli/settings.json;
     # See: https://antigravity.google/docs/cli/commands/agents/#creating-custom-agents
     ".gemini/config/agents/code-reviewer.md".source = ./dotfiles/.gemini/config/agents/code-reviewer.md;
     ".gemini/config/agents/tester.md".source = ./dotfiles/.gemini/config/agents/tester.md;

@@ -5,22 +5,47 @@ Commands to run before/after setting Home Manager.
 ## Get and Configure
 
 ```sh
-# Setup sudoers
-echo -e "\n$(whoami) ALL=(ALL) NOPASSWD:ALL\n" | sudo tee -a /etc/sudoers.d/99-$(whoami)
+# Setup `sudoers`
+echo 'Defaults    secure_path = /home/ubuntu/.nix-profile/bin:/home/mbana/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/lib/snapd/snap/bin' | sudo tee /etc/sudoers.d/nix-path
+echo -e "$(whoami) ALL=(ALL) NOPASSWD:ALL\n" | sudo tee -a /etc/sudoers.d/99-$(whoami)
+echo -e "mbana ALL=(ALL) NOPASSWD:ALL\n" | sudo tee -a /etc/sudoers.d/99-mbana
+echo -e "bana-io ALL=(ALL) NOPASSWD:ALL\n" | sudo tee -a /etc/sudoers.d/99-bana-io
+```
+
+```sh
 # Allow running `dmesg` as normal user, i.e., not root.
 echo 'kernel.dmesg_restrict = 0' | sudo tee -a /etc/sysctl.d/100-kernel.conf
 echo 'kernel.sysrq = 1' | sudo tee -a /etc/sysctl.d/100-kernel.conf
 # For VSCode.
 echo 'fs.inotify.max_user_watches = 524288' | sudo tee -a /etc/sysctl.d/100-fs.conf
-# Disable IPv6
-echo 'net.ipv6.conf.all.disable_ipv6 = 1' | sudo tee -a /etc/sysctl.d/100-ipv6.conf
-echo 'net.ipv6.conf.default.disable_ipv6 = 1' | sudo tee -a /etc/sysctl.d/100-ipv6.conf
-echo 'net.ipv6.conf.lo.disable_ipv6 = 1' | sudo tee -a /etc/sysctl.d/100-ipv6.conf
 # Refresh settings
 sudo sysctl --system
 # Setup the `groups` and add user to the group.
 echo kvm libvirt wireshark docker dialout | xargs -n 1 sudo groupadd || echo 'group already exists'
 sudo usermod --append --groups kvm,libvirt,wireshark,docker,dialout "$(whoami)"
+```
+
+IPv4 and IPv6 forwarding:
+
+```sh
+# Create a drop-in configuration file
+sudo tee /etc/sysctl.d/100-ip-forward.conf <<'EOF'
+# Enable IPv4 packet forwarding
+net.ipv4.ip_forward = 1
+# Enable IPv6 packet forwarding
+net.ipv6.conf.all.forwarding = 1
+# Also enable for the default interface template
+net.ipv6.conf.default.forwarding = 1
+EOF
+```
+
+If you want to disable IPv6:
+
+```sh
+# Disable IPv6
+echo 'net.ipv6.conf.all.disable_ipv6 = 1' | sudo tee -a /etc/sysctl.d/100-ipv6.conf
+echo 'net.ipv6.conf.default.disable_ipv6 = 1' | sudo tee -a /etc/sysctl.d/100-ipv6.conf
+echo 'net.ipv6.conf.lo.disable_ipv6 = 1' | sudo tee -a /etc/sysctl.d/100-ipv6.conf
 ```
 
 ## Post Install / Quality of Life
